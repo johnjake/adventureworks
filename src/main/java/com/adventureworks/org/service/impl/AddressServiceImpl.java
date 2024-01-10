@@ -23,6 +23,11 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
+    public Flux<Address> findByZipCode(Integer zipCode) {
+        return addressRepository.findByPostalCode(zipCode);
+    }
+
+    @Override
     public Flux<Address> findAll() {
         return addressRepository.findAll();
     }

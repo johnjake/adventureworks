@@ -9,7 +9,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/address")
 public class AddressController {
     private final AddressService addressService;
 
@@ -18,24 +18,29 @@ public class AddressController {
         this.addressService = addressService;
     }
 
-    @GetMapping("/addresses/{id}")
+    @GetMapping("/{id}")
     public Mono<ResponseEntity<Address>> getAddressById(@PathVariable Integer id) {
         return addressService.findById(id)
                 .map(ResponseEntity::ok)
                 .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/addresses")
+    @GetMapping("/by-postalcode/{postalCode}")
+    public Flux<Address>getAddressByPostalCode(@PathVariable Integer postalCode) {
+        return addressService.findByZipCode(postalCode);
+    }
+
+    @GetMapping("/all")
     public Flux<Address> getAllAddresses() {
         return addressService.findAll();
     }
 
-    @PostMapping("/addresses")
+    @PostMapping("/add")
     public Mono<Address> createAddress(@RequestBody Address address) {
         return addressService.save(address);
     }
 
-    @DeleteMapping("/addresses/{id}")
+    @DeleteMapping("/{id}")
     public Mono<ResponseEntity<Void>> deleteAddress(@PathVariable Integer id) {
         return addressService.delete(id)
                 .then(Mono.just(ResponseEntity.ok().<Void>build()))
