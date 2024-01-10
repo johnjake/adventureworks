@@ -9,7 +9,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/api/addresses")
+@RequestMapping("/api/address")
 public class AddressController {
     private final AddressService addressService;
 
@@ -30,17 +30,17 @@ public class AddressController {
         return addressService.findByZipCode(postalCode);
     }
 
-    @GetMapping("/addresses")
+    @GetMapping("/all")
     public Flux<Address> getAllAddresses() {
         return addressService.findAll();
     }
 
-    @PostMapping("/addresses")
+    @PostMapping("/add")
     public Mono<Address> createAddress(@RequestBody Address address) {
         return addressService.save(address);
     }
 
-    @DeleteMapping("/addresses/{id}")
+    @DeleteMapping("/{id}")
     public Mono<ResponseEntity<Void>> deleteAddress(@PathVariable Integer id) {
         return addressService.delete(id)
                 .then(Mono.just(ResponseEntity.ok().<Void>build()))
