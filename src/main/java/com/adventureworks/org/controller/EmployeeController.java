@@ -1,6 +1,7 @@
 package com.adventureworks.org.controller;
 
 import com.adventureworks.org.model.Employee;
+import com.adventureworks.org.model.aggregate.EmployeeStateCount;
 import com.adventureworks.org.service.contract.EmployeeService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,5 +21,10 @@ public class EmployeeController {
     @GetMapping("/{city}")
     public Flux<Employee> listEmployeePerCity(@PathVariable String city) {
         return employeeService.findEmployeesByCity(city);
+    }
+
+    @GetMapping("/count")
+    public Flux<EmployeeStateCount> listCountOfEmployeePerCity() {
+        return employeeService.countEmployeePerCity();
     }
 }

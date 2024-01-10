@@ -1,6 +1,7 @@
 package com.adventureworks.org.service.impl;
 
 import com.adventureworks.org.model.Employee;
+import com.adventureworks.org.model.aggregate.EmployeeStateCount;
 import com.adventureworks.org.repository.EmployeeRepository;
 import com.adventureworks.org.service.contract.EmployeeService;
 import org.springframework.stereotype.Service;
@@ -17,5 +18,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Flux<Employee> findEmployeesByCity(String city) {
         return employeeRepository.findEmployeesByCity(city);
+    }
+
+    @Override
+    public Flux<EmployeeStateCount> countEmployeePerCity() {
+        return employeeRepository.countEmployeeInCity();
     }
 }
